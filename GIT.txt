@@ -1,0 +1,9 @@
+git checkout (cambiar a una rama o a la rama principal)
+git checkout -b "nombrerama" (crear una nueva rama)
+git log --oneline --decorate --graph --all
+git stash (guarda cambios no confirmados para dsp rescatarlos)
+git merge "nombrerama" (añadir cambios de una rama a la principal)
+git branch -v (ultimo cambios en cada rama)
+git branch --merged
+git remote origin "nombrerama" (subir rama a github)
+git checkout --track origin/"nombrerama" 
