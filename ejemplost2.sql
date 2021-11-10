@@ -61,5 +61,17 @@ where  department_name ILIKE '%A%';
 SELECT department_name, first_name, last_name
 from departments d JOIN employees e on (d.department_id = e.department_id)
 where  department_name ILIKE '%A%';
-		
-  
+
+--seleccion el nombre de la region,
+-- el nombre y apellidos de cada emepleado
+
+--mi intento
+select region_name, first_name, last_name 
+from regions join countries using (region_id);
+--solucion
+select region_name, first_name, last_name
+from employees join departments using (department_id)
+				join locations using (location_id)
+				join countries using (country_id) 
+				join regions using (region_id);
+
