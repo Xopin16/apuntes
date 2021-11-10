@@ -1,0 +1,2 @@
+join using (cuando las claves externas se llaman iguales)
+join on (cuando las claves externas se llaman distinto)

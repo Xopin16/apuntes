@@ -36,4 +36,30 @@ from departments d, employees e, dependents de
 where d.department_id = e.department_id
   and e.employee_id = de.employee_id
 order by department_name, e.last_name;
+
+SELECT *
+from employees join departments using (departments_id)
+
+--consultas con clave externa en la misma tabla (empleados a la izquierda, jefes a la derecha)
+SELECT e1.employee_id, e1.first_name,
+		e1.last_name, e1.manager_id,
+		e2.employee_id, e2.first_name,
+		e2.last_name
+from employees e1 join employees e2 
+				on (e1.manager_id = e2.employee_id);
+--seleccionar el nombre del departamento,
+-- el nombre y los apellidos de aquellos empleadps 
+--cuyo nombre de departamento empieza por A
+
+--Cuando la claves externas se llaman igual 
+SELECT department_name, first_name, last_name
+from departments JOIN employees USING (department_id)
+where  department_name ILIKE '%A%';
+
+
+--cuando las claves externas se llaman difeerente
+SELECT department_name, first_name, last_name
+from departments d JOIN employees e on (d.department_id = e.department_id)
+where  department_name ILIKE '%A%';
+		
   
