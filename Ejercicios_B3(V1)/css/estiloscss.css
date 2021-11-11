@@ -1,0 +1,22 @@
+h1{
+
+    font-size: 46pt;
+    color: brown;
+}
+h2{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: chartreuse;
+}
+li.a{
+    font-family: monospace,Arial, Helvetica, sans-serif;
+    color: darkgoldenrod;
+}
+body{
+    background-color: rgb(0, 139, 132);
+}
+ol.indice{
+    background-color: rgb(114, 121, 25);
+}
+p.primer{
+    font-variant: small-caps;
+}
