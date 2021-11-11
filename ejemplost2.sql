@@ -145,3 +145,11 @@ from departments right outer join employees
 select first_name, last_name, coalesce (department_name, 'sin departamento')
 from departments full join employees 
 		using (department_id);
+--empleados que lleven contratados menos tiempo que alexander cock
+select *
+from employees em1 cross join employees em2
+where em2.first_name = 'Alexander'
+   and em2.last_name = 'Khoo'
+   and em1.hire_date < em2.hire_date;
+
+
