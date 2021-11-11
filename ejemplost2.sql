@@ -151,5 +151,72 @@ from employees em1 cross join employees em2
 where em2.first_name = 'Alexander'
    and em2.last_name = 'Khoo'
    and em1.hire_date < em2.hire_date;
+--Seleccionar el FIRST_NAME y LAST_NAME de los empleados del departamento de IT o Finance cuya 
+--fecha de alta (HIRE_DATE) fuera un día cualquiera de Abril o Junio.
+select distinct *
+from departments,locations,regions,countries;
+
+select *
+from dependents;
+
+select *
+from locations;
+
+SELECT first_name, last_name, department_name
+FROM departments JOIN employees USING (department_id)
+WHERE (hire_date::text ILIKE '%-04%'
+	OR hire_date::text ILIKE '%-06%')
+	AND (department_name ILIKE 'IT'
+	OR department_name ILIKE 'FINANCE');
+--Seleccionar el FIRST_NAME y LAST_NAME de los managers de los empleados del departamento de Administration.
+
+--FROM employees e1 JOIN employees e2 ON (e1.employee_id = e2.manager_id)
+SELECT e2.first_name, e2.last_name
+FROM employees e1 JOIN departments using (department_id)
+				JOIN employees e2 ON (e1.manager_id = e2.employee_id)
+WHERE department_name ILIKE 'Administration';
+
+--Seleccionar el COUNTRY_NAME donde tiene localización el departamento de Public Relations
+
+SELECT country_name
+FROM countries JOIN locations using (country_id)
+			JOIN departments USING (location_id)
+WHERE department_name ILIKE 'Public Relations';
+
+SELECT first_name, last_name
+FROM employees JOIN jobs USING (job_id)
+			JOIN departments USING (department_id)
+			JOIN locations USING (location_id)
+			JOIN countries USING (country_id)
+			JOIN regions USING (region_id)
+WHERE region_name ILIKE 'Americas';
+
+select *
+from locations,departments;
+
+--Selecciona el nombre y los apellidos de los managers 
+--cuyo departamento esté en United Kingdom y su nombre contenga la letra a.
+SELECT e2.first_name, e2.last_name
+FROM employees e1 JOIN departments USING (department_id)
+				JOIN locations USING (location_id)
+				JOIN countries USING (country_id)
+				JOIN employees e2 ON (e1.manager_id = e2.employee_id)
+WHERE country_name ILIKE 'united kingdom'
+  AND e2.last_name ilike '%a%';
+ 
+--Seleccionar el nombre y apellidos de los hijos, así como el nombre y apellidos de sus padres, para aquellos empleados que 
+--trabajen en oficinas de América. Ordena la salida por orden alfabético del país :)
+
+SELECT e.first_name , e.last_name,
+		d.first_name, d.last_name
+FROM dependents d JOIN employees e USING (employee_id)
+				JOIN departments USING (department_id)
+				JOIN locations USING (location_id)
+				JOIN countries USING (country_id)
+				JOIN regions USING (region_id)
+WHERE region_name ILIKE 'Americas'
+ORDER BY country_name ASC;
+				
+
 
 
