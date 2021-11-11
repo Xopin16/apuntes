@@ -74,4 +74,74 @@ from employees join departments using (department_id)
 				join locations using (location_id)
 				join countries using (country_id) 
 				join regions using (region_id);
+				
+select *
+from locations join countries using (country_id)
+		join regions using (region_id);
+		
+select *
+from regions using countries using (region_id)
+		join locations using (country_id);
 
+select *
+from jobs;
+
+select *
+from departments;
+
+select *
+from employees;
+
+--1
+select first_name, last_name, email
+from employees join departments using (department_id)
+		join locations using (location_id)
+		join countries using (country_id)
+where country_name ILIKE 'united kingdom';
+
+select department_name
+from departments join employees using (department_id)
+where hire_date::text ilike '1993%';
+
+
+
+--Seleccionar la región de los empleados con un salario inferior a 10000$
+
+select distinct region_name
+from employees join departments using (job_id)
+		join locations using (country)
+		join region (region_id)
+where min_salary <10000;
+
+select distinct region_name
+from regions join countries using (region_id)
+			join locations using (country_id)
+			join departments using (location_id)
+			join employees using (department_id)
+			join jobs using (job_id)
+where salary <10000;
+			
+--select first_name, last_name 
+--from employees  join dependents using (employee_id)
+--where last_name ilike 'd%'
+	--or last_name ilike 'h%'
+	--or last_name ilike 's%';
+	
+select  e1.first_name, e1.last_name
+from employees e1 join employees e2 on (e1.manager_id = e2.employee_id )
+where (e2.last_name ilike 'd%'
+	or e2.last_name ilike 'h%'
+	or e2.last_name ilike 's%');
+	
+--por la izquierda salen todos los empleados aunque no tengan ninguna correspondencia. 
+select first_name, last_name, coalesce (department_name, 'sin departamento')
+from employees left outer join departments 
+		using (department_id);
+--por la derecha 
+select first_name, last_name, coalesce (department_name, 'sin departamento')
+from departments right outer join employees 
+		using (department_id);
+--full join es para que aparezcan las dos cosas
+select first_name, last_name, coalesce (department_name, 'sin departamento')
+from departments full join employees 
+		using (department_id);
