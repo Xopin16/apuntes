@@ -7,3 +7,6 @@ git branch -v (ultimo cambios en cada rama)
 git branch --merged
 git remote origin "nombrerama" (subir rama a github)
 git checkout --track origin/"nombrerama" 
+dir -hidden (ls -la)
+git branch -r (ramas remotas)
+git branch -a (todas las ramas)
