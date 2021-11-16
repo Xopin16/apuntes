@@ -216,7 +216,45 @@ FROM dependents d JOIN employees e USING (employee_id)
 				JOIN regions USING (region_id)
 WHERE region_name ILIKE 'Americas'
 ORDER BY country_name ASC;
-				
+--CORRECION DEL BOLETIN 02.
+
+--1
+SELECT first_name, last_name, department_name
+FROM departments JOIN employees USING (department_id)
+WHERE EXTRACT (month from hire_date) IN (4,6)
+	AND (department_name IN ('IT','FINANCE'));
+	
+--2
+SELECT e2.first_name, e2.last_name
+FROM employees e1 JOIN departments using (department_id)
+				JOIN employees e2 ON (e1.manager_id = e2.employee_id)
+WHERE department_name ILIKE 'Administration';
+--3
+SELECT country_name
+FROM countries JOIN locations using (country_id)
+			JOIN departments USING (location_id)
+WHERE department_name ILIKE 'Public Relations';
+--4
+SELECT first_name, last_name
+FROM employees JOIN departments USING (department_id)
+			JOIN locations USING (location_id)
+			JOIN countries USING (country_id)
+			JOIN regions USING (region_id)
+WHERE region_name ILIKE 'Americas';
+--5
+SELECT d.first_name , d.last_name,
+		e.first_name, e.last_name
+FROM employees e JOIN departments USING (department_id)
+			JOIN locations USING (location_id)
+			JOIN countries USING (country_id)
+			JOIN regions USING (region_id)
+			JOIN dependents d USING (employee_id)
+WHERE region_name ILIKE 'Americas'
+  and relationship = 'Child'
+ORDER BY country_name;
+
+
+
 
 
 
