@@ -1,4 +1,4 @@
-SELECT inmueble.*
+SELECT inmueble.*, nombre
 FROM inmueble JOIN operacion USING (id_inmueble)
 			JOIN vendedor USING (id_vendedor)
 WHERE (EXTRACT (month from fecha_operacion) = 2
@@ -15,16 +15,18 @@ SELECT DISTINCT nombre
 from tipo;
 
 SELECT AVG (precio_final/superficie)
-FROM inmueble JOIN operacion USING (id_inmueble)
+FROM tipo JOIN inmueble ON (id_tipo = tipo_inmueble)
+			JOIN operacion USING (id_inmueble)
 WHERE EXTRACT (month from fecha_operacion) IN (3,4)
   AND provincia IN ('Huelva', 'Cádiz', 'Almería','Granada', 'Málaga')
-  AND tipo_operacion = 'Alquiler';
+  AND tipo_operacion = 'Alquiler'
+  AND nombre IN ('Casa', 'Piso');
  
 --¿Cuál es la media del porcentaje de diferencia entre el precio inicial (en la tabla inmueble) 
 /*y el precio final (en la tabla operación) para aquellas operaciones de alquiler realizadas 
 en enero de cualquier año, 
 donde el tipo del inmueble es Oficina, Local o Suelo?*/
-SELECT AVG(((precio_final / precio)*100)-100)
+SELECT AVG(((precio / precio_final)*100)-100)
 FROM tipo JOIN inmueble ON (tipo_inmueble = id_tipo)
 		JOIN operacion USING (id_inmueble)
 WHERE nombre IN ('Oficina', 'Local', 'Suelo')
