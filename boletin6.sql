@@ -1,10 +1,11 @@
-SELECT inmueble.*, nombre
+--1.lunes de febrero o viernes de marzo
+SELECT inmueble.*,
 FROM inmueble JOIN operacion USING (id_inmueble)
 			JOIN vendedor USING (id_vendedor)
-WHERE (EXTRACT (month from fecha_operacion) = 2
-  AND EXTRACT (day from fecha_operacion) = 1)
-   OR (EXTRACT (month from fecha_operacion) = 3
-  AND EXTRACT (day from fecha_operacion) = 5)
+WHERE (TO_CHAR (fecha_operacion, 'MM') = '02' 
+  AND TO_CHAR (fecha_operacion, 'ID') = '1'
+   OR TO_CHAR (fecha_operacion, 'MM') = '03'
+  AND TO_CHAR (fecha_operacion, 'ID') = '5')
   AND superficie > 200
   AND nombre ILIKE '%A%';
   
