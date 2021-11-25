@@ -1,13 +1,25 @@
 --1.lunes de febrero o viernes de marzo
-SELECT inmueble.*,
+
+SELECT inmueble.*
 FROM inmueble JOIN operacion USING (id_inmueble)
 			JOIN vendedor USING (id_vendedor)
-WHERE (TO_CHAR (fecha_operacion, 'MM') = '02' 
-  AND TO_CHAR (fecha_operacion, 'ID') = '1'
-   OR TO_CHAR (fecha_operacion, 'MM') = '03'
-  AND TO_CHAR (fecha_operacion, 'ID') = '5')
+WHERE ((TO_CHAR (fecha_operacion, 'MM') = '02'
+  AND TO_CHAR (fecha_operacion, 'ID') = '1')
+   OR (TO_CHAR (fecha_operacion, 'MM') = '03'
+  AND TO_CHAR (fecha_operacion, 'ID') = '5'))
   AND superficie > 200
   AND nombre ILIKE '%A%';
+  
+SELECT inmueble.*
+FROM inmueble JOIN operacion USING (id_inmueble)
+			JOIN vendedor USING (id_vendedor)
+WHERE ((TO_CHAR (fecha_operacion, 'MM') = '02'
+  AND TO_CHAR (fecha_operacion, 'ID') = '1')
+   OR (TO_CHAR (fecha_operacion, 'MM') = '03'
+  AND TO_CHAR (fecha_operacion, 'ID') = '5'))
+  AND superficie > 200
+  AND nombre ILIKE '%A%';
+
   
 --Selecciona el precio medio por metro cuadrado de los alquileres de viviendas en 
 --los meses de marzo y abril de cualquier año para 
@@ -27,15 +39,18 @@ WHERE EXTRACT (month from fecha_operacion) IN (3,4)
 /*y el precio final (en la tabla operación) para aquellas operaciones de alquiler realizadas 
 en enero de cualquier año, 
 donde el tipo del inmueble es Oficina, Local o Suelo?*/
+
 SELECT AVG(((precio / precio_final)*100)-100)
 FROM tipo JOIN inmueble ON (tipo_inmueble = id_tipo)
 		JOIN operacion USING (id_inmueble)
 WHERE nombre IN ('Oficina', 'Local', 'Suelo')
   AND tipo_operacion = 'Alquiler'
   AND EXTRACT (month from fecha_operacion) = 1;
+  
 --Seleccionar el nombre de aquellos compradores de Casa o Piso en las provincias de Jaén 
 --o Córdoba, donde el precio final de inmueble esté entre 150.000 y 200.000€, para aquellos 
 --inmuebles que han tardado entre 3 y 4 meses en venderse.
+
 SELECT co.nombre
 FROM comprador co JOIN operacion USING (id_cliente)
 			JOIN inmueble i USING (id_inmueble) 
@@ -50,14 +65,10 @@ WHERE ti.nombre IN ('Casa','Piso')
 del precio final (en la tabla operación) y de la diferencia en porcentaje entre ellas de aquellas 
 viviendas (Casa o Piso) en alquiler que tengan menos de 
 100 metros cuadrados y que hayan tardado un año o más en alquilarse.*/
-SELECT fecha_operacion, fecha_alta
-FROM inmueble i JOIN tipo ti ON (ti.id_tipo = i.tipo_inmueble)
-				JOIN operacion USING (id_inmueble)
-WHERE 
 
 SELECT AVG (precio) AS "media_precio_inicial",
 		AVG (precio_final) AS "media_precio_final",
-		AVG(((precio_final / precio)*100)-100) AS "media_diferencia"
+		AVG(((precio/ precio_final)*100)-100) AS "media_diferencia"
 FROM inmueble i JOIN tipo ti ON (ti.id_tipo = i.tipo_inmueble)
 				JOIN operacion USING (id_inmueble) 
 WHERE ti.nombre IN ('Casa', 'Piso')
@@ -66,7 +77,7 @@ WHERE ti.nombre IN ('Casa', 'Piso')
   AND fecha_operacion >= fecha_alta + '1 year'::interval; 
   
 --6
-SELECT precio_final
+SELECT *
 FROM tipo ti JOIN inmueble ON (ti.id_tipo = tipo_inmueble)
     	JOIN operacion USING (id_inmueble)
 WHERE tipo_operacion = 'Alquiler'
